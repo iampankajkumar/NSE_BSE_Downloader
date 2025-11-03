@@ -1,0 +1,247 @@
+{
+  "info": {
+    "name": "NSE/BSE Data Downloader API",
+    "description": "REST API endpoints for NSE/BSE market data management and refresh",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "1"
+  },
+  "item": [
+    {
+      "name": "Information",
+      "item": [
+        {
+          "name": "Root - API Info",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/",
+              "host": ["{{baseUrl}}"],
+              "path": [""]
+            },
+            "description": "Get API information and available endpoints"
+          }
+        },
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/health",
+              "host": ["{{baseUrl}}"],
+              "path": ["health"]
+            },
+            "description": "Check API health status"
+          }
+        },
+        {
+          "name": "Get Configuration",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/config",
+              "host": ["{{baseUrl}}"],
+              "path": ["config"]
+            },
+            "description": "Get current API configuration"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Status",
+      "item": [
+        {
+          "name": "All Exchange Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/status",
+              "host": ["{{baseUrl}}"],
+              "path": ["status"]
+            },
+            "description": "Get data status for all exchanges"
+          }
+        },
+        {
+          "name": "NSE_EQ Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/status/NSE_EQ",
+              "host": ["{{baseUrl}}"],
+              "path": ["status", "NSE_EQ"]
+            },
+            "description": "Get data status for NSE Equity"
+          }
+        },
+        {
+          "name": "NSE_FO Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/status/NSE_FO",
+              "host": ["{{baseUrl}}"],
+              "path": ["status", "NSE_FO"]
+            },
+            "description": "Get data status for NSE Futures & Options"
+          }
+        },
+        {
+          "name": "BSE_EQ Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/status/BSE_EQ",
+              "host": ["{{baseUrl}}"],
+              "path": ["status", "BSE_EQ"]
+            },
+            "description": "Get data status for BSE Equity"
+          }
+        },
+        {
+          "name": "Data Summary",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/summary",
+              "host": ["{{baseUrl}}"],
+              "path": ["summary"]
+            },
+            "description": "Get comprehensive data summary for all exchanges"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Refresh",
+      "item": [
+        {
+          "name": "Refresh NSE_EQ (Auto Dates)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/refresh/NSE_EQ",
+              "host": ["{{baseUrl}}"],
+              "path": ["refresh", "NSE_EQ"]
+            },
+            "description": "Refresh NSE Equity data with automatic date calculation"
+          }
+        },
+        {
+          "name": "Refresh NSE_EQ (Custom Dates)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"start_date\": \"2025-10-01\",\n  \"end_date\": \"2025-11-02\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/refresh/NSE_EQ",
+              "host": ["{{baseUrl}}"],
+              "path": ["refresh", "NSE_EQ"]
+            },
+            "description": "Refresh NSE Equity data with custom date range"
+          }
+        },
+        {
+          "name": "Refresh BSE_EQ",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/refresh/BSE_EQ",
+              "host": ["{{baseUrl}}"],
+              "path": ["refresh", "BSE_EQ"]
+            },
+            "description": "Refresh BSE Equity data"
+          }
+        },
+        {
+          "name": "Refresh All Exchanges",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/refresh",
+              "host": ["{{baseUrl}}"],
+              "path": ["refresh"]
+            },
+            "description": "Refresh data for all exchanges"
+          }
+        },
+        {
+          "name": "Refresh Multiple Exchanges",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"exchanges\": [\"NSE_EQ\", \"BSE_EQ\"],\n  \"start_date\": \"2025-10-01\",\n  \"end_date\": \"2025-11-02\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/refresh",
+              "host": ["{{baseUrl}}"],
+              "path": ["refresh"]
+            },
+            "description": "Refresh data for selected exchanges with custom date range"
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000",
+      "type": "string"
+    }
+  ]
+}
+

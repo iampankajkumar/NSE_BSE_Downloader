@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NSE/BSE Launcher</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .launcher {
+            background: white;
+            border-radius: 20px;
+            padding: 50px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 5em;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #718096;
+            font-size: 1.2em;
+            margin-bottom: 40px;
+        }
+
+        .status {
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            font-weight: 600;
+        }
+
+        .status.checking {
+            background: rgba(66, 153, 225, 0.1);
+            color: #4299e1;
+        }
+
+        .status.online {
+            background: rgba(72, 187, 120, 0.1);
+            color: #48bb78;
+        }
+
+        .status.offline {
+            background: rgba(245, 101, 101, 0.1);
+            color: #f56565;
+        }
+
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(102, 126, 234, 0.2);
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 18px 40px;
+            margin: 10px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.2em;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #f7fafc;
+            color: #2d3748;
+            border: 2px solid #e2e8f0;
+        }
+
+        .btn-secondary:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .instructions {
+            margin-top: 40px;
+            padding: 20px;
+            background: #f7fafc;
+            border-radius: 12px;
+            text-align: left;
+        }
+
+        .instructions h3 {
+            color: #2d3748;
+            margin-bottom: 15px;
+        }
+
+        .instructions ol {
+            margin-left: 20px;
+            color: #718096;
+            line-height: 1.8;
+        }
+
+        .instructions code {
+            background: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #667eea;
+        }
+
+        .api-url {
+            margin-top: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .api-url label {
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .api-url input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 1em;
+        }
+
+        .api-url input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+    </style>
+</head>
+<body>
+    <div class="launcher">
+        <div class="logo">📊</div>
+        <h1>NSE/BSE Data Downloader</h1>
+        <p class="subtitle">Web Dashboard Launcher</p>
+
+        <div class="status checking" id="status">
+            <div class="spinner"></div>
+            <span>Checking API status...</span>
+        </div>
+
+        <div class="api-url">
+            <label>API URL:</label>
+            <input type="text" id="apiUrl" value="http://localhost:5000">
+            <button class="btn btn-secondary" style="padding: 8px 20px; margin: 0;" onclick="checkApi()">Recheck</button>
+        </div>
+
+        <div style="margin-top: 30px;">
+            <a href="/dashboard" class="btn btn-primary" id="launchBtn" style="display: none;">
+                🚀 Launch Dashboard
+            </a>
+        </div>
+
+        <div class="instructions">
+            <h3>📋 Quick Start:</h3>
+            <ol>
+                <li>Make sure the API server is running:
+                    <br><code>python api.py</code>
+                </li>
+                <li>Wait for the green "API Online" status above</li>
+                <li>Click "Launch Dashboard" to open the UI</li>
+            </ol>
+
+            <div style="margin-top: 20px;">
+                <strong>Alternative Access:</strong><br>
+                Direct link: <a href="/dashboard" style="color: #667eea;"><code>http://localhost:5000/dashboard</code></a>
+            </div>
+        </div>
+
+        <div style="margin-top: 30px; display: flex; gap: 15px; justify-content: center;">
+            <a href="/api-test" class="btn btn-secondary">
+                🧪 API Test Interface
+            </a>
+            <a href="API_README.md" class="btn btn-secondary" target="_blank">
+                📖 Documentation
+            </a>
+        </div>
+    </div>
+
+    <script>
+        function getApiUrl() {
+            return document.getElementById('apiUrl').value;
+        }
+
+        async function checkApi() {
+            const statusDiv = document.getElementById('status');
+            const launchBtn = document.getElementById('launchBtn');
+            
+            statusDiv.className = 'status checking';
+            statusDiv.innerHTML = '<div class="spinner"></div><span>Checking API status...</span>';
+            launchBtn.style.display = 'none';
+
+            try {
+                const response = await fetch(`${getApiUrl()}/health`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.status === 'healthy') {
+                    statusDiv.className = 'status online';
+                    statusDiv.innerHTML = '<span>✅ API Online - Ready to launch!</span>';
+                    launchBtn.style.display = 'inline-block';
+                } else {
+                    throw new Error('API unhealthy');
+                }
+            } catch (error) {
+                statusDiv.className = 'status offline';
+                statusDiv.innerHTML = `
+                    <span>❌ API Offline</span>
+                `;
+                
+                // Add helpful message
+                setTimeout(() => {
+                    const helpMsg = document.createElement('div');
+                    helpMsg.style.cssText = 'margin-top: 15px; font-size: 0.9em; color: #718096;';
+                    helpMsg.innerHTML = `
+                        <strong>Need to start the API?</strong><br>
+                        Run: <code style="background: white; padding: 4px 8px; border-radius: 4px; color: #667eea;">python api.py</code>
+                    `;
+                    statusDiv.appendChild(helpMsg);
+                }, 500);
+            }
+        }
+
+        // Check API on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            checkApi();
+            // Recheck every 5 seconds
+            setInterval(checkApi, 5000);
+        });
+    </script>
+</body>
+</html>
+

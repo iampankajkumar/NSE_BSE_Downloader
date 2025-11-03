@@ -40,3 +40,7 @@ mypy>=1.0.0
 
 # Documentation
 sphinx>=5.0.0
+
+# Flask API
+Flask>=2.3.0
+Flask-CORS>=4.0.0

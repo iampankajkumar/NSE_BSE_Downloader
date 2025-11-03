@@ -21,6 +21,8 @@ A professional application for downloading NSE and BSE market data with advanced
 
 ### **User-Friendly Interface**
 - **Modern GUI**: Built with PyQt6 for professional appearance
+- **Web Dashboard**: Beautiful browser-based UI with real-time stats
+- **REST API**: Flask-based API for programmatic access
 - **Real-time Progress**: Live download progress and status updates
 - **Customizable Settings**: User preferences saved automatically
 - **Error Handling**: Comprehensive error reporting and recovery
@@ -30,6 +32,7 @@ A professional application for downloading NSE and BSE market data with advanced
 - **Concurrent Downloads**: Async processing for faster downloads
 - **Weekend Support**: Optional weekend download attempts
 - **Timeout Configuration**: Adjustable network timeout settings
+- **RESTful API**: Expose data refresh functionality via HTTP endpoints
 
 ## 📦 Installation
 
@@ -57,24 +60,72 @@ aiohttp>=3.8.0
 pandas>=1.5.0
 numpy>=1.21.0
 pyyaml>=6.0
+Flask>=2.3.0
+Flask-CORS>=4.0.0
 ```
 
 ## 🎯 Quick Start
 
-### **1. Launch Application**
+### **Option 1: GUI Application**
+
+#### **1. Launch Application**
 ```bash
 python main.py
 ```
 
-### **2. Select Exchanges**
+#### **2. Select Exchanges**
 - ✅ Check desired exchanges (NSE EQ, NSE INDEX, BSE EQ, etc.)
 - ⚙️ Configure append options if needed
 - 📅 Set date range (optional)
 
-### **3. Download Data**
+#### **3. Download Data**
 - 🚀 Click "Start Download"
 - 📊 Monitor progress in real-time
 - ✅ Data saved to `~/NSE_BSE_Data/`
+
+### **Option 2: Web Dashboard (NEW!)**
+
+#### **1. Start API Server**
+```bash
+python api.py
+# Or use the convenience scripts:
+# Windows: start_api.bat
+# Linux/Mac: ./start_api.sh
+```
+
+#### **2. Launch Web UI**
+- 🚀 Open `launch_ui.html` in your browser
+- Or directly open `web_ui.html`
+- 📊 Modern dashboard with real-time statistics
+- 🎨 Beautiful, intuitive interface
+
+#### **3. Features**
+- ✅ Real-time exchange status monitoring
+- 📈 Visual data statistics
+- 🔄 Easy batch refresh operations
+- 📋 Activity log with timestamps
+- 📱 Fully responsive design
+
+### **Option 3: REST API (Programmatic Access)**
+
+#### **1. Access API**
+- 🌐 API available at `http://localhost:5000`
+- 📖 Full API documentation in [API_README.md](API_README.md)
+- 🧪 Test interface: Open `api_test.html` in your browser
+
+#### **2. Example API Calls**
+```bash
+# Check health
+curl http://localhost:5000/health
+
+# Get data status
+curl http://localhost:5000/status/NSE_EQ
+
+# Refresh data
+curl -X POST http://localhost:5000/refresh/NSE_EQ \
+  -H "Content-Type: application/json" \
+  -d '{"start_date": "2025-10-01", "end_date": "2025-11-02"}'
+```
 
 ## 📁 Data Organization
 
@@ -122,6 +173,7 @@ python main.py
 
 ## 🧪 Testing
 
+### **GUI Testing**
 Run the test suite to verify functionality:
 
 ```bash
@@ -133,6 +185,29 @@ pytest tests/
 
 # Run specific test
 pytest tests/unit/test_config.py -v
+```
+
+### **API Testing**
+Test the REST API endpoints:
+
+```bash
+# Start the API server first
+python api.py
+
+# In another terminal, run the test script
+python test_api.py
+
+# Run specific test
+python test_api.py --test health
+
+# Test with data refresh (will download data)
+python test_api.py --refresh
+```
+
+Or use the interactive web interface:
+```bash
+# Open api_test.html in your browser
+# Available at: file:///path/to/api_test.html
 ```
 
 ## 🤝 Contributing
@@ -168,6 +243,18 @@ This project is licensed under the GPL-3.0 License - see the [LICENSE](LICENSE) 
 - Python community for amazing libraries
 
 ## 📊 Version History
+
+### **v1.1.0** (2025-11-03)
+- 🎉 **NEW**: Flask REST API for programmatic access
+- 🌐 RESTful endpoints for data refresh and status checks
+- 🎨 **NEW**: Modern Web Dashboard UI with real-time statistics
+- 🚀 Beautiful, responsive browser-based interface
+- 📊 Visual exchange status monitoring and batch operations
+- 📋 Real-time activity log with color-coded entries
+- 🧪 Interactive web-based API testing interface
+- 📖 Comprehensive API and UI documentation
+- 🔧 CORS support for browser-based access
+- ⚡ Convenient startup scripts for API server
 
 ### **v1.0.1** (2025-08-07)       
 - Enhanced download logging system
